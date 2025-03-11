@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product - Ecommerce</title>
+    <link rel="stylesheet" href="public/style.css" />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <ul>
+          <li><a href="home.html">Home</a></li>
+          <li><a href="product.html">Product</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <section class="product-filters">
+        <h2>Filter & Sort Products</h2>
+        <label for="sort">Sort by:</label>
+        <select id="sort" onchange="sortProducts()">
+          <option value="price-asc">Price: Low to High</option>
+          <option value="price-desc">Price: High to Low</option>
+          <option value="name-asc">Name: A to Z</option>
+          <option value="name-desc">Name: Z to A</option>
+          <option value="date-desc">Latest to Oldest</option>
+          <option value="date-asc">Oldest to Latest</option>
+        </select>
+      </section>
+      <section class="product-list">
+        <h2>Featured Products</h2>
+        <div id="products">
+          <!-- Products will be dynamically inserted here -->
+        </div>
+      </section>
+    </main>
+    <footer>
+      <p>&copy; 2025 Ecommerce Store. All rights reserved.</p>
+    </footer>
+    <script>
+      const products = [
+        { name: "Product A", price: 30, date: "2023-10-01" },
+        { name: "Product B", price: 20, date: "2023-09-15" },
+        { name: "Product C", price: 50, date: "2023-08-20" },
+        // Add more products as needed
+      ];
+
+      function displayProducts(products) {
+        const productContainer = document.getElementById("products");
+        productContainer.innerHTML = "";
+        products.forEach((product) => {
+          const productElement = document.createElement("div");
+          productElement.className = "product";
+          productElement.innerHTML = `
+                    <h3>${product.name}</h3>
+                    <p>Price: $${product.price}</p>
+                    <p>Date: ${product.date}</p>
+                `;
+          productContainer.appendChild(productElement);
+        });
+      }
+
+      function sortProducts() {
+        const sortValue = document.getElementById("sort").value;
+        let sortedProducts = [...products];
+        if (sortValue === "price-asc") {
+          sortedProducts.sort((a, b) => a.price - b.price);
+        } else if (sortValue === "price-desc") {
+          sortedProducts.sort((a, b) => b.price - a.price);
+        } else if (sortValue === "name-asc") {
+          sortedProducts.sort((a, b) => a.name.localeCompare(b.name));
+        } else if (sortValue === "name-desc") {
+          sortedProducts.sort((a, b) => b.name.localeCompare(a.name));
+        } else if (sortValue === "date-asc") {
+          sortedProducts.sort((a, b) => new Date(a.date) - new Date(b.date));
+        } else if (sortValue === "date-desc") {
+          sortedProducts.sort((a, b) => new Date(b.date) - new Date(a.date));
+        }
+        displayProducts(sortedProducts);
+      }
+
+      // Initial display of products
+      displayProducts(products);
+    </script>
+  </body>
+</html>
