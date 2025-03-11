@@ -37,23 +37,21 @@
         <a href="#" onclick="loadPage('about')">About</a>
     </div>
     <div class="content" id="content">
-        <h2>Welcome to Home Page</h2>
-        <p>This is the home page content.</p>
+        <!-- Nội dung của trang sẽ được load ở đây -->
     </div>
 
     <script>
         function loadPage(page) {
-            let content = document.getElementById("content");
-            if (page === 'home') {
-                content.innerHTML = "<h2>Welcome to Home Page</h2><p>This is the home page content.</p>";
-            } else if (page === 'product') {
-                content.innerHTML = "<h2>Our Products</h2><p>Here are some amazing products.</p>";
-            } else if (page === 'contact') {
-                content.innerHTML = "<h2>Contact Us</h2><p>Email: contact@example.com</p>";
-            } else if (page === 'about') {
-                content.innerHTML = "<h2>About Us</h2><p>We are a great company!</p>";
-            }
+            fetch(`componets/${page}.html`)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById("content").innerHTML = data;
+                })
+                .catch(error => console.error("Error loading page:", error));
         }
+
+        // Load mặc định trang home khi mở trang web
+        window.onload = () => loadPage('home');
     </script>
 </body>
 </html>
